@@ -1,0 +1,223 @@
+<html>
+    <head>
+
+<link
+  href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+  rel="stylesheet"
+  id="bootstrap-css"
+/>
+<!------ Include the above in your HEAD tag ---------->
+
+<link
+href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css"
+rel="stylesheet"
+id="bootstrap-css"
+/>
+
+</head>
+</html>
+<body>
+<div class="container mt-5">
+<div class="mx-auto" style="width:200px;">
+<!-- Trigger the modal with a button -->
+<button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal">Add Employee</button>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+
+      <div class="modal-body">
+
+<div class="container">
+
+    <div class="card bg-light">
+      <article class="card-body mx-auto" style="max-width: 400px">
+        <h4 class="card-title mt-3 text-center">Employee Details</h4>
+
+        <form action="/api/v1/formSubmit" method="post">
+          <div class="form-group input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+            </div>
+            <input
+              name="first_name"
+              class="form-control"
+              placeholder="Full name"
+              type="text"
+            />
+          </div>
+          <!-- form-group// -->
+          <div class="form-group input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="fa fa-envelope"></i>
+              </span>
+            </div>
+            <input
+              name="email"
+              class="form-control"
+              placeholder="Email address"
+              type="email"
+            />
+          </div>
+          <!-- form-group// -->
+          <div class="form-group input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
+
+            <input
+              name="phone"
+              class="form-control"
+              placeholder="Phone number"
+              type="text"
+            />
+          </div>
+          </div>
+
+          <!-- form-group// -->
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">
+              Add Employee
+            </button>
+          </div>
+          <!-- form-group// -->
+        </form>
+      </article>
+    </div>
+    <!-- card.// -->
+  </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</div>
+
+<% if(locals.message.success){ %>
+  <div class="alert alert-success" style="margin:10px" role="alert">
+      <strong><%=message.success%></strong>
+  </div>
+<% } %>
+  <table
+    id="example"
+    class="table table-striped table-bordered"
+    style="width: 100%;border:1px solid gray"
+  >
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Mobile</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% for(let i=0;i<users.length;i++) { %>
+        <tr>
+          <td><%=users[i].name%></td>
+          <td><%=users[i].email%></td>
+          <td><%=users[i].mobile%></td>
+          <td>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal<%=i%>">Edit</button>
+            <a href="/api/v1/deleteEmployee/<%=users[i].id%>" class="btn btn-primary">Delete</a>
+
+          </td>
+        </tr>
+
+
+
+<!-- Modal -->
+<div id="myModal<%=i%>" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body">
+        <form action="/api/v1/updateEmployee" method="post">
+          <div class="form-group input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+            </div>
+            <input type="hidden" value="<%=users[i].id%>" name="userid" />
+            <input
+              name="first_name"
+              class="form-control"
+              placeholder="Full name"
+              type="text"
+              value="<%=users[i].name%>"
+            />
+          </div>
+          <!-- form-group// -->
+          <div class="form-group input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="fa fa-envelope"></i>
+              </span>
+            </div>
+            <input
+              name="email"
+              class="form-control"
+              placeholder="Email address"
+              type="email"
+              value="<%=users[i].email%>"
+            />
+          </div>
+          <!-- form-group// -->
+          <div class="form-group input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
+
+            <input
+              name="phone"
+              class="form-control"
+              placeholder="Phone number"
+              type="text"
+              value="<%=users[i].mobile%>"
+            />
+          </div>
+          </div>
+
+          <!-- form-group// -->
+          <div class="form-group">
+            <button type="submit" style="width:150px" class="mx-auto btn btn-primary btn-block">
+            Update  Employee
+            </button>
+          </div>
+          <!-- form-group// -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+        <% } %></users.length;i++)
+      >
+    </tbody>
+  </table>
+</div>
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $("#example").DataTable();
+    });
+  </script>
+
+</body>
+</html>
